@@ -1,0 +1,6 @@
+export const FRAME_RATE = 60;
+export const BACKGROUND_SPEED = 1 / (FRAME_RATE / 2);
+export const FOREGORUND_SPEED = BACKGROUND_SPEED * 2;
+export const BACKGROUND_LOOPING_POINT = 413;
+export const PIPE_SPEED = FOREGORUND_SPEED;
+export const GROUND_SPEED = FOREGORUND_SPEED;

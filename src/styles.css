@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.background {
+    position: relative;
+    background-image: url("../dist/background.png");
+    width: 1157px;
+    height: 288px;
+}
+
+.ground {
+    position: absolute;
+    background-image: url("../dist/ground.png");
+    width: 1157px;
+    height: 16px;
+    bottom: 0;
+}
+
+.pipe {
+    position: absolute;
+    background-image: url("../dist/pipe.png");
+    width: 70px;
+    height: 288px;
+}
+
+
+.bird {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+}
+
+.line {
+    fill: none;
+    /* stroke: steelblue; */
+    stroke-width: 2px;
+  }
+  
+
+  circle {
+    /* fill: steelblue; */
+    opacity: 0.7;
+  }

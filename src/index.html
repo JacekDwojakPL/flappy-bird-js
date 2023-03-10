@@ -1,0 +1,84 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flappy Bird</title>
+    <link href="../dist/styles.css" rel="stylesheet" />
+  </head>
+  <body class="bg-slate-400">
+    <div class="flex flex-wrap pt-4 gap-4 lg:gap-y-0 relative md:justify-between md:m-auto md:w-[1300px]">
+      <div class="w-[640px] bg-white overflow-x-scroll md:overflow-hidden shadow-md">
+        <div class="h-[288px] overflow-hidden relative">
+          <div class="background"></div>
+          <div class="bird"></div>
+          <div class="pipe"></div>
+          <div class="ground"></div>
+          <div class="p-1 absolute left-0 top-0 z-10 font-mono text-white text-sm">
+            <div>Episode: <span class="episode"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="w-[640px] bg-white overflow-x-scroll md:overflow-hidden py-2 shadow-md">
+        <div class="mb-5 hidden">
+          <input
+            type="text"
+            name="train-iterations"
+            class="border border-gray-500 train-iterations p-1"
+            placeholder="#episodes"
+          />
+          <button class="train-start-btn border border-gray-500 rounded-sm p-1">Train</button>
+        </div>
+        <div class="flex justify-between items-center mb-2 px-2">
+          <label for="epsilon"> Epsilon </label>
+          <input
+            class="border border-gray-500 p-1 md:mr-48 epsilon"
+            type="number"
+            min="0"
+            max="1"
+            step="0.001"
+            value="0.005"
+            name="epsilon"
+          />
+        </div>
+        <div class="flex justify-between items-center mb-2 px-2">
+          <label for="alpha"> Alpha </label>
+          <input
+            class="border border-gray-500 p-1 md:mr-48 alpha"
+            type="number"
+            min="0"
+            max="1"
+            step="0.001"
+            value="0.07"
+            name="alpha"
+          />
+        </div>
+        <div class="flex justify-between items-center mb-2 px-2">
+          <label for="gamma"> Gamma </label>
+          <input
+            class="border border-gray-500 p-1 md:mr-48 gamma"
+            type="number"
+            min="0"
+            max="1"
+            step="0.001"
+            value="0.095"
+            name="gamma"
+          />
+        </div>
+        <div class="my-5 flex justify-between md:justify-start mb-2 px-2">
+          <button class="start-simulation border border-gray-500 rounded-sm p-1 md:mr-6">Start</button>
+          <button class="stop-simulation border border-gray-500 rounded-sm p-1 md:mr-6">Stop</button>
+          <button class="show-chart border border-gray-500 rounded-sm p-1 md:mr-6">Show Chart</button>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap pt-4 gap-4 lg:gap-y-0 relative md:justify-between md:m-auto md:w-[1300px]">
+      <div class="overflow-x-scroll md:overflow-hidden bg-white shadow-md md:w-[640px]">
+        <svg class="chart"></svg>
+      </div>
+      <div class="overflow-x-scroll md:overflow-hidden bg-transparent md:w-[640px]"></div>
+    </div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="../dist/main.js"></script>
+  </body>
+</html>
