@@ -12,12 +12,11 @@ class GameObject {
    */
   update(dt) {
     if (this.loopingPoint) {
-      this.position.x =
-        (this.position.x + -dt * this.speed) % this.loopingPoint;
+      this.position.x = Math.round((this.position.x + -dt * this.speed) % this.loopingPoint);
       return;
     }
 
-    this.position.x = (this.position.x + -dt * this.speed) % this.loopingPoint;
+    this.position.x = Math.round(this.position.x + -dt * this.speed);
   }
 
   setPosition(data) {
