@@ -3,12 +3,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flappy Bird</title>
-    <link href="../dist/styles.css" rel="stylesheet" />
+    <title></title>
+    <link href="dist/styles.css" rel="stylesheet" />
   </head>
-  <body class="bg-slate-400">
+  <body class="bg-gray-100">
     <div class="flex flex-wrap pt-4 gap-4 lg:gap-y-0 relative md:justify-between md:m-auto md:w-[1300px]">
-      <div class="w-[640px] bg-white overflow-x-scroll md:overflow-hidden shadow-md">
+      <div class="w-[640px] bg-white overflow-x-scroll md:overflow-hidden shadow-sm">
         <div class="h-[288px] overflow-hidden relative">
           <div class="background"></div>
           <div class="bird"></div>
@@ -19,8 +19,8 @@
           </div>
         </div>
       </div>
-      <div class="w-[640px] bg-white overflow-x-scroll md:overflow-hidden py-2 shadow-md">
-        <div class="mb-5 hidden">
+      <div class="w-[640px] bg-white overflow-x-scroll md:overflow-hidden py-2 shadow-sm">
+        <div class="mb-5 px-2">
           <input
             type="text"
             name="train-iterations"
@@ -73,12 +73,13 @@
       </div>
     </div>
     <div class="flex flex-wrap pt-4 gap-4 lg:gap-y-0 relative md:justify-between md:m-auto md:w-[1300px]">
-      <div class="overflow-x-scroll md:overflow-hidden bg-white shadow-md md:w-[640px]">
+      <div class="overflow-x-scroll md:overflow-hidden bg-white md:w-[640px] shadow-sm min">
         <svg class="chart"></svg>
       </div>
       <div class="overflow-x-scroll md:overflow-hidden bg-transparent md:w-[640px]"></div>
     </div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="../dist/main.js"></script>
+    <script src="https://unpkg.com/simple-statistics@7.8.2/dist/simple-statistics.min.js"></script>
+    <script src="dist/main.js"></script>
   </body>
 </html>

@@ -4,14 +4,14 @@
 
 .background {
     position: relative;
-    background-image: url("../dist/background.png");
+    background-image: url("./background.png");
     width: 1157px;
     height: 288px;
 }
 
 .ground {
     position: absolute;
-    background-image: url("../dist/ground.png");
+    background-image: url("./ground.png");
     width: 1157px;
     height: 16px;
     bottom: 0;
@@ -19,7 +19,7 @@
 
 .pipe {
     position: absolute;
-    background-image: url("../dist/pipe.png");
+    background-image: url("./pipe.png");
     width: 70px;
     height: 288px;
 }

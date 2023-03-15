@@ -1,8 +1,18 @@
 import GameObject from './GameObject';
 import Enviorment from './Enviorment';
 import Agent from './Agent';
-import { BACKGROUND_SPEED, BACKGROUND_LOOPING_POINT, GROUND_SPEED, FRAME_RATE } from './constants';
-
+import {
+  BACKGROUND_SPEED,
+  BACKGROUND_LOOPING_POINT,
+  GROUND_SPEED,
+  FRAME_RATE,
+  END_TRAINING,
+  START_TRAINING,
+  Q_VALUES,
+  EXPORT_Q_VALUES,
+  EXPORT_SCORES,
+  SCORES,
+} from './constants';
 import { plotData } from './utils';
 
 function init() {
@@ -14,12 +24,31 @@ function init() {
   const agent = new Agent();
   const trainIterationsInput = document.querySelector('.train-iterations');
   const episodeScores = [];
+  const worker = new Worker(new URL('./Qlearning.worker.js', import.meta.url));
+
   let deltaTime = 0;
   let lastTimestamp = 0;
   let isTraining = true;
   let episodeCounter = 0;
   let animationFrameId;
   addEventHandlers();
+  worker.onmessage = (ev) => {
+    const { type, parameters } = ev.data;
+    if (type === END_TRAINING) {
+      document.title = 'Flappy Bird';
+      worker.postMessage({ type: EXPORT_Q_VALUES });
+    }
+
+    if (type === Q_VALUES) {
+      const { qValues } = parameters;
+      agent.qValues = qValues;
+    }
+
+    if (type === SCORES) {
+      const { scores } = parameters;
+      plotData(scores);
+    }
+  };
 
   function reset() {
     enviorment.reset();
@@ -35,10 +64,11 @@ function init() {
     for (let i = 0; i < numberOfEpisodes; i++) {
       let isTerminalState = false;
       do {
-        isTerminalState = update(FRAME_RATE);
+        isTerminalState = update(((1 / FRAME_RATE) * 1000) / 2);
       } while (!isTerminalState);
     }
     isTraining = false;
+    document.title = 'Flappy Bird';
   }
 
   function gameLoop(timestamp) {
@@ -126,11 +156,17 @@ function init() {
     document.querySelector('.train-start-btn').addEventListener('click', () => {
       reset();
       isTraining = true;
-      trainingLoop();
+      document.title = '[TRAINING] Flappy Bird';
+      // setTimeout(() => trainingLoop(), 100);
+      setTimeout(
+        () =>
+          worker.postMessage({ type: START_TRAINING, parameters: { iterations: Number(trainIterationsInput.value) } }),
+        100
+      );
     });
     document.querySelector('.start-simulation').addEventListener('click', () => {
       reset();
-      isTraining = true;
+      isTraining = false;
       animationFrameId = requestAnimationFrame(gameLoop);
     });
     document.querySelector('.stop-simulation').addEventListener('click', () => {
@@ -139,7 +175,8 @@ function init() {
     });
 
     document.querySelector('.show-chart').addEventListener('click', () => {
-      plotData(episodeScores);
+      // plotData(episodeScores);
+      worker.postMessage({ type: EXPORT_SCORES });
     });
 
     document.querySelector('.epsilon').addEventListener('change', (e) => {

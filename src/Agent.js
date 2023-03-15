@@ -49,16 +49,12 @@ class Agent {
 
   updateQValue(currentState, action, nextState, reward) {
     const actionsForNextState = this.getLegalActions();
-    const maxActionScore = Math.max(
-      ...actionsForNextState.map((a) => this.getQValue(nextState, a))
-    );
+    const maxActionScore = Math.max(...actionsForNextState.map((a) => this.getQValue(nextState, a)));
 
     const currentScore = this.getQValue(currentState, action);
 
-    const observationSample =
-      reward + this.discount * maxActionScore - currentScore;
-    this.qValues[currentState][action] =
-      currentScore + this.learningRate * observationSample;
+    const observationSample = reward + this.discount * maxActionScore - currentScore;
+    this.qValues[currentState][action] = currentScore + this.learningRate * observationSample;
   }
 
   getLegalActions() {
@@ -67,7 +63,7 @@ class Agent {
 
   takeAction(choosenAction) {
     if (Number(choosenAction) === 1) {
-      this.dy = -3;
+      this.dy = -2;
     }
   }
 
