@@ -4,6 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link href="dist/styles.css" rel="stylesheet" />
   </head>
   <body class="bg-gray-100">
@@ -28,9 +35,10 @@
             placeholder="#episodes"
           />
           <button class="train-start-btn border border-gray-500 rounded-sm p-1">Train</button>
+          <div class="md:inline md:p-2 my-2"><progress class="progress hidden" value="0"></progress></div>
         </div>
         <div class="flex justify-between items-center mb-2 px-2">
-          <label for="epsilon"> Epsilon </label>
+          <label for="epsilon"> Epsilon (ε) <i class="fas fa-question-circle" id="epsilon"></i></label>
           <input
             class="border border-gray-500 p-1 md:mr-48 epsilon"
             type="number"
@@ -42,7 +50,7 @@
           />
         </div>
         <div class="flex justify-between items-center mb-2 px-2">
-          <label for="alpha"> Alpha </label>
+          <label for="alpha"> Alpha (α) <i class="fas fa-question-circle" id="alpha"></i></label>
           <input
             class="border border-gray-500 p-1 md:mr-48 alpha"
             type="number"
@@ -54,7 +62,7 @@
           />
         </div>
         <div class="flex justify-between items-center mb-2 px-2">
-          <label for="gamma"> Gamma </label>
+          <label for="gamma"> Gamma (γ) <i class="fas fa-question-circle" id="gamma"></i></label>
           <input
             class="border border-gray-500 p-1 md:mr-48 gamma"
             type="number"
@@ -68,18 +76,84 @@
         <div class="my-5 flex justify-between md:justify-start mb-2 px-2">
           <button class="start-simulation border border-gray-500 rounded-sm p-1 md:mr-6">Start</button>
           <button class="stop-simulation border border-gray-500 rounded-sm p-1 md:mr-6">Stop</button>
-          <button class="show-chart border border-gray-500 rounded-sm p-1 md:mr-6">Show Chart</button>
+          <button class="show-chart border border-gray-500 rounded-sm p-1 md:mr-6">Plot Rewards</button>
+          <button class="clear-chart border border-gray-500 rounded-sm p-1 md:mr-6">Clear Plot</button>
         </div>
       </div>
     </div>
     <div class="flex flex-wrap pt-4 gap-4 lg:gap-y-0 relative md:justify-between md:m-auto md:w-[1300px]">
-      <div class="overflow-x-scroll md:overflow-hidden bg-white md:w-[640px] shadow-sm min">
+      <div class="overflow-x-scroll md:overflow-hidden bg-white md:w-[640px]">
+        <h3 class="text-lg font-mono font-semibold text-center p-2">Reinforcement Learning with Flappy Bird</h3>
+        <p class="p-2">
+          This is an example demonstration of a reinforcement learning algorithm called Q-value iteration. With this
+          method, an agent learns which actions to take given the state it finds itself in. In this example, the agent
+          controls a bird and can choose one of two actions: flap its wings and fly upward (action 1), or do nothing and
+          fall to the ground (action 0). The state is defined as the bird's distance to the ground and the top of the
+          pipe. In the original Flappy Bird game, the height of the pipes is randomized. However, for demonstration
+          purposes, we are using a simplified version with fixed pipe height.
+        </p>
+        <p class="p-2">
+          For each state that is not the terminal state, the agent receives a reward that tells it how well it is
+          performing. In this case, the agent receives a reward of 1 for every non-terminal state. However, every
+          terminal state, such as hitting the ground or a pipe, yields a penalty of -1000.
+        </p>
+        <p class="p-2">
+          Using these signals, the goal of the agent is to learn the optimal policy for each state it can be in, in
+          order to maximize the total rewards it receives.
+        </p>
+
+        <h3 class="text-lg font-mono font-semibold text-center p-2">How to use</h3>
+        <ul>
+          <li class="p-2">
+            To begin, press the "Start" button to observe the untrained agent's performance. As you can see, the bird
+            falls almost immediately
+          </li>
+          <li class="p-2">
+            Next, adjust the number of training episodes and hyperparameters to optimize the agent's learning process.
+            By default, the agent begins to construct an optimal policy after approximately 70,000 episodes.
+          </li>
+          <li class="p-2">
+            After training is finished you can monitor the agent's progress, by clicking the "Plot Rewards" button to
+            visualize the accumulated rewards after each episode.
+            <strong
+              >If you have trained for a large number of episodes, it is recommended to clear the plot before running
+              the simulation again, as a heavy plot can slow down the rendering process.</strong
+            >
+          </li>
+        </ul>
+        <p class="p-2">
+          If you are interested in learning more about this algorithm or artificial intelligence in general, please
+          check out the following resources and courses:
+        </p>
+        <ul class="p-2">
+          <li>
+            <a href="https://cs50.harvard.edu/ai/2020/" class="text-green-600"
+              >CS50's Introduction to Artificial Intelligence with Python</a
+            >
+          </li>
+          <li>
+            <a href="https://aima.cs.berkeley.edu/" class="text-green-600"
+              >Artificial Intelligence: A Modern Approach</a
+            >
+            by Stuart Russell and Peter Norvig
+          </li>
+          <li>
+            <a
+              href="https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf"
+              class="text-green-600"
+              >Reinforcement Learning</a
+            >
+            by Richard S. Sutton and Andrew G. Barto
+          </li>
+        </ul>
+      </div>
+      <div class="overflow-x-scroll md:overflow-hidden bg-white shadow-sm md:w-[640px] md:h-[400px]">
         <svg class="chart"></svg>
       </div>
-      <div class="overflow-x-scroll md:overflow-hidden bg-transparent md:w-[640px]"></div>
     </div>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://unpkg.com/simple-statistics@7.8.2/dist/simple-statistics.min.js"></script>
     <script src="dist/main.js"></script>
   </body>
 </html>

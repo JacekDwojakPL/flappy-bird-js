@@ -1,161 +1,17 @@
-const FRAME_RATE = 60;
-const BACKGROUND_SPEED = 1 / (FRAME_RATE / 2);
-const FOREGORUND_SPEED = BACKGROUND_SPEED * 2;
-const BACKGROUND_LOOPING_POINT = 413;
-const PIPE_SPEED = FOREGORUND_SPEED;
-const GROUND_SPEED = FOREGORUND_SPEED;
-const START_TRAINING = 'START_TRAINING';
-const END_TRAINING = 'END_TRAINING';
-const EXPORT_Q_VALUES = 'EXPORT_Q_VALUES';
-const Q_VALUES = 'Q_VALUES';
-const EXPORT_SCORES = 'EXPORT_SCORES';
-const SCORES = 'SCORES';
+import Agent from './Agent';
+import Enviorment from './Enviorment';
+import {
+  FRAME_RATE,
+  START_TRAINING,
+  END_TRAINING,
+  EXPORT_Q_VALUES,
+  Q_VALUES,
+  EXPORT_SCORES,
+  SCORES,
+  PROGRESS,
+} from './constants';
+
 const episodeScores = [];
-
-class Agent {
-  constructor(gamma = 0.95, epsilon = 0.005, learningRate = 0.7) {
-    this.position = { x: 150, y: 150 };
-    this.gravity = 45;
-    this.dy = 0;
-    this.qValues = {};
-    this.discount = gamma;
-    this.epsilon = epsilon;
-    this.learningRate = learningRate;
-    this.reward = 0;
-  }
-
-  update(dt) {
-    this.dy = this.dy + dt / this.gravity;
-    this.position.y = Math.round(this.position.y + this.dy);
-  }
-
-  getAgentPosition() {
-    return this.position;
-  }
-
-  getBestAction(currentState) {
-    const legalActions = this.getLegalActions();
-    const randomIndex = Math.floor(Math.random() * legalActions.length);
-    let bestScore = -Infinity;
-    let bestAction = null;
-    for (let action in legalActions) {
-      const score = this.getQValue(currentState, action);
-      if (score > bestScore) {
-        bestScore = score;
-        bestAction = action;
-      }
-    }
-
-    if (Math.random() < this.epsilon) {
-      return legalActions[randomIndex];
-    }
-    return bestAction;
-  }
-
-  getQValue(state, action) {
-    if (!this.qValues[state]) {
-      this.qValues[state] = [0, 0];
-    }
-
-    const stateScores = this.qValues[state];
-    return stateScores[action];
-  }
-
-  updateQValue(currentState, action, nextState, reward) {
-    const actionsForNextState = this.getLegalActions();
-    const maxActionScore = Math.max(...actionsForNextState.map((a) => this.getQValue(nextState, a)));
-
-    const currentScore = this.getQValue(currentState, action);
-
-    const observationSample = reward + this.discount * maxActionScore - currentScore;
-    this.qValues[currentState][action] = currentScore + this.learningRate * observationSample;
-  }
-
-  getLegalActions() {
-    return [0, 1];
-  }
-
-  takeAction(choosenAction) {
-    if (Number(choosenAction) === 1) {
-      this.dy = -2;
-    }
-  }
-
-  reset() {
-    this.position = { x: 150, y: 150 };
-    this.dy = 0;
-    this.reward = 0;
-  }
-
-  getReward() {
-    return this.reward;
-  }
-
-  updateReward(reward) {
-    this.reward += reward;
-  }
-
-  getQValues() {
-    return this.qValues;
-  }
-}
-
-class Enviorment {
-  constructor() {
-    this.pipe = {
-      x: 670,
-      height: 150, //this.getRandomArbitrary(120, 150),
-    };
-    this.pipeSpeed = PIPE_SPEED;
-  }
-
-  getPipePosition() {
-    return this.pipe;
-  }
-
-  update(dt) {
-    this.pipe.x = Math.round(this.pipe.x + -dt * this.pipeSpeed);
-    if (this.pipe.x < -50) {
-      this.reset();
-    }
-  }
-
-  getReward(nextState) {
-    if (this.isTerminalState(nextState)) {
-      return -1000;
-    }
-
-    return 1;
-  }
-
-  reset() {
-    this.pipe = {
-      x: 670,
-      height: 150, //this.getRandomArbitrary(120, 150),
-    };
-  }
-
-  isTerminalState(state) {
-    const { nextPipeDistanceX, nextPipeDistanceY, nextDistanceGround } = state;
-
-    if (nextDistanceGround <= 10) {
-      return true;
-    }
-
-    if (nextPipeDistanceX <= 0 && nextPipeDistanceY <= 0) {
-      if (nextPipeDistanceX <= -50) {
-        return false;
-      }
-      return true;
-    }
-
-    return false;
-  }
-
-  getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-}
 
 const agent = new Agent();
 const enviorment = new Enviorment();
@@ -226,7 +82,7 @@ function trainingLoop(iterations, cb) {
   for (let i = 0; i < numberOfEpisodes; i++) {
     let isTerminalState = false;
     if (i % 1000 === 0) {
-      console.log(i);
+      self.postMessage({ type: PROGRESS, parameters: { iteration: i } });
     }
 
     do {

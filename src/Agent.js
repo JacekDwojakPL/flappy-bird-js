@@ -80,6 +80,10 @@ class Agent {
   updateReward(reward) {
     this.reward += reward;
   }
+
+  getQValues() {
+    return this.qValues;
+  }
 }
 
 export default Agent;
