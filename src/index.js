@@ -1,3 +1,4 @@
+import tippy from 'tippy.js';
 import GameObject from './GameObject';
 import Enviorment from './Enviorment';
 import Agent from './Agent';
@@ -5,7 +6,6 @@ import {
   BACKGROUND_SPEED,
   BACKGROUND_LOOPING_POINT,
   GROUND_SPEED,
-  FRAME_RATE,
   END_TRAINING,
   START_TRAINING,
   Q_VALUES,
@@ -14,9 +14,9 @@ import {
   SCORES,
   PROGRESS,
 } from './constants';
-import { plotData } from './utils';
+import { plotData, getFps } from './utils';
 
-function init() {
+async function init() {
   const background = new GameObject('.background', BACKGROUND_LOOPING_POINT, undefined, BACKGROUND_SPEED);
   const ground = new GameObject('.ground', 500, { x: 0, y: 288 - 16 }, GROUND_SPEED);
   const pipe = new GameObject('.pipe', undefined);
@@ -25,8 +25,13 @@ function init() {
   const agent = new Agent();
   const trainIterationsInput = document.querySelector('.train-iterations');
   const progressBar = document.querySelector('.progress');
+  const progressBarValue = document.querySelector('.progressValue');
+  const episodeDis = document.querySelector('.episode');
+  const fps = await getFps();
   const episodeScores = [];
-  const worker = new Worker(new URL('./Qlearning.worker.js', import.meta.url));
+  const worker = new Worker(
+    /* webpackChunkName: "q-learning-worker" */ new URL('./Qlearning.worker.js', import.meta.url)
+  );
 
   let deltaTime = 0;
   let lastTimestamp = 0;
@@ -39,6 +44,7 @@ function init() {
     if (type === END_TRAINING) {
       document.title = 'Flappy Bird';
       progressBar.value = Number(trainIterationsInput.value);
+      progressBarValue.innerHTML = '100%';
       worker.postMessage({ type: EXPORT_Q_VALUES });
     }
 
@@ -55,6 +61,7 @@ function init() {
     if (type === PROGRESS) {
       const { iteration } = parameters;
       progressBar.value = iteration;
+      progressBarValue.innerHTML = `${Math.round((Number(iteration) / Number(trainIterationsInput.value)) * 100)}%`;
     }
   };
 
@@ -63,20 +70,6 @@ function init() {
     agent.reset();
     pipe.setPosition({ x: 670, y: 170 });
     bird.setPosition({ x: 150, y: 150 });
-  }
-
-  function trainingLoop() {
-    let numberOfEpisodes = Number(trainIterationsInput.value);
-    isTraining = true;
-
-    for (let i = 0; i < numberOfEpisodes; i++) {
-      let isTerminalState = false;
-      do {
-        isTerminalState = update(((1 / FRAME_RATE) * 1000) / 2);
-      } while (!isTerminalState);
-    }
-    isTraining = false;
-    document.title = 'Flappy Bird';
   }
 
   function gameLoop(timestamp) {
@@ -157,7 +150,7 @@ function init() {
     ground.render();
     bird.render();
 
-    document.querySelector('.episode').innerHTML = episodeCounter;
+    episodeDis.innerHTML = episodeCounter;
   }
 
   function addEventHandlers() {
@@ -168,7 +161,10 @@ function init() {
       setTimeout(() => {
         progressBar.max = Number(trainIterationsInput.value);
         progressBar.classList.remove('hidden');
-        worker.postMessage({ type: START_TRAINING, parameters: { iterations: Number(trainIterationsInput.value) } });
+        worker.postMessage({
+          type: START_TRAINING,
+          parameters: { iterations: Number(trainIterationsInput.value), fps },
+        });
       }, 100);
     });
     document.querySelector('.start-simulation').addEventListener('click', () => {
@@ -197,23 +193,24 @@ function init() {
     document.querySelector('.gamma').addEventListener('change', (e) => {
       agent.reward = Number(e.target.value);
     });
+    if (tippy) {
+      tippy('#epsilon', {
+        content:
+          'This parameter represents the exploration vs. exploitation trade-off in the Q-value iteration algorithm. It determines the probability of the agent taking a random action instead of the action with the highest Q-value (i.e., exploration) vs. the action with the highest Q-value (i.e., exploitation). <p>A high value of ε indicates that the agent is more likely to explore, while a low value of ε indicates that the agent is more likely to exploit. Setting ε too high can cause the agent to explore too much and potentially miss the optimal policy, while setting it too low can cause the agent to exploit too much and potentially get stuck in local optima.</p>',
+        allowHTML: true,
+      });
 
-    tippy('#epsilon', {
-      content:
-        'This parameter represents the exploration vs. exploitation trade-off in the Q-value iteration algorithm. It determines the probability of the agent taking a random action instead of the action with the highest Q-value (i.e., exploration) vs. the action with the highest Q-value (i.e., exploitation). <p>A high value of ε indicates that the agent is more likely to explore, while a low value of ε indicates that the agent is more likely to exploit. Setting ε too high can cause the agent to explore too much and potentially miss the optimal policy, while setting it too low can cause the agent to exploit too much and potentially get stuck in local optima.</p>',
-      allowHTML: true,
-    });
-
-    tippy('#alpha', {
-      content:
-        'This parameter represents the learning rate in the Q-value update. It determines how much weight should be given to the new Q-value estimate vs. the previous Q-value estimate. A high value of α indicates that the new Q-value estimate should be given more weight, while a low value of α indicates that the previous Q-value estimate should be given more weight. Setting α too high can cause the algorithm to converge too quickly and potentially miss the optimal policy, while setting it too low can cause the algorithm to converge too slowly.',
-      allowHTML: true,
-    });
-    tippy('#gamma', {
-      content:
-        'This parameter determines the importance of future rewards in the Q-value update. It is a discount factor that discounts the value of future rewards based on how far away they are in time. In other words, it determines how much weight should be given to immediate rewards vs. future rewards. A high value of γ (e.g., close to 1.0) indicates that future rewards are important, while a low value of γ (e.g., close to 0.0) indicates that only immediate rewards matter.',
-      allowHTML: true,
-    });
+      tippy('#alpha', {
+        content:
+          'This parameter represents the learning rate in the Q-value update. It determines how much weight should be given to the new Q-value estimate vs. the previous Q-value estimate. A high value of α indicates that the new Q-value estimate should be given more weight, while a low value of α indicates that the previous Q-value estimate should be given more weight. Setting α too high can cause the algorithm to converge too quickly and potentially miss the optimal policy, while setting it too low can cause the algorithm to converge too slowly.',
+        allowHTML: true,
+      });
+      tippy('#gamma', {
+        content:
+          'This parameter determines the importance of future rewards in the Q-value update. It is a discount factor that discounts the value of future rewards based on how far away they are in time. In other words, it determines how much weight should be given to immediate rewards vs. future rewards. A high value of γ (e.g., close to 1.0) indicates that future rewards are important, while a low value of γ (e.g., close to 0.0) indicates that only immediate rewards matter.',
+        allowHTML: true,
+      });
+    }
   }
 }
 

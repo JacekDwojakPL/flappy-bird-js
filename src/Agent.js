@@ -63,7 +63,7 @@ class Agent {
 
   takeAction(choosenAction) {
     if (Number(choosenAction) === 1) {
-      this.dy = -2;
+      this.dy = -3;
     }
   }
 

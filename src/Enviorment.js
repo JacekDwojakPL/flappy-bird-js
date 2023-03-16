@@ -4,7 +4,7 @@ class Enviorment {
   constructor() {
     this.pipe = {
       x: 670,
-      height: 150, //this.getRandomArbitrary(120, 150),
+      height: 150,
     };
     this.pipeSpeed = PIPE_SPEED;
   }
@@ -31,7 +31,7 @@ class Enviorment {
   reset() {
     this.pipe = {
       x: 670,
-      height: 150, //this.getRandomArbitrary(120, 150),
+      height: 150,
     };
   }
 

@@ -76,9 +76,14 @@ function update(dt) {
   return isTerminalState;
 }
 
-function trainingLoop(iterations, cb) {
+function trainingLoop(iterations, fps, cb) {
   let numberOfEpisodes = iterations;
-
+  let deltaTime;
+  if (fps === 120) {
+    deltaTime = (1 / fps) * 1000;
+  } else {
+    deltaTime = (1 / FRAME_RATE) * 1000;
+  }
   for (let i = 0; i < numberOfEpisodes; i++) {
     let isTerminalState = false;
     if (i % 1000 === 0) {
@@ -86,7 +91,7 @@ function trainingLoop(iterations, cb) {
     }
 
     do {
-      isTerminalState = update(((1 / FRAME_RATE) * 1000) / 2);
+      isTerminalState = update(deltaTime);
     } while (!isTerminalState);
   }
   cb();
@@ -99,8 +104,8 @@ function reset() {
 self.onmessage = (ev) => {
   const { type, parameters } = ev.data;
   if (type === START_TRAINING) {
-    const { iterations } = parameters;
-    trainingLoop(iterations, () => {
+    const { iterations, fps } = parameters;
+    trainingLoop(iterations, fps, () => {
       self.postMessage({ type: END_TRAINING, parameters: null });
     });
   }
