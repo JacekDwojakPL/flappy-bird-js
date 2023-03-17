@@ -60,8 +60,10 @@ async function init() {
 
     if (type === PROGRESS) {
       const { iteration } = parameters;
+      const val = `${Math.round((Number(iteration) / Number(trainIterationsInput.value)) * 100)}%`;
       progressBar.value = iteration;
-      progressBarValue.innerHTML = `${Math.round((Number(iteration) / Number(trainIterationsInput.value)) * 100)}%`;
+      progressBarValue.innerHTML = val;
+      document.title = `[TRAINING] ${val}`;
     }
   };
 
@@ -186,12 +188,19 @@ async function init() {
 
     document.querySelector('.epsilon').addEventListener('change', (e) => {
       agent.epsilon = Number(e.target.value);
+      document.querySelector('.epsilon-value').innerHTML = e.target.value;
     });
     document.querySelector('.alpha').addEventListener('change', (e) => {
       agent.learningRate = Number(e.target.value);
+      document.querySelector('.alpha-value').innerHTML = e.target.value;
     });
     document.querySelector('.gamma').addEventListener('change', (e) => {
-      agent.reward = Number(e.target.value);
+      agent.discount = Number(e.target.value);
+      document.querySelector('.gamma-value').innerHTML = e.target.value;
+    });
+
+    trainIterationsInput.addEventListener('change', (e) => {
+      document.querySelector('.train-iterations-value').innerHTML = e.target.value;
     });
     if (tippy) {
       tippy('#epsilon', {

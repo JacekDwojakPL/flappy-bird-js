@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+progress::-moz-progress-bar { background: theme(colors.green.500); }
+progress::-webkit-progress-value { background: theme(colors.green.500); }
+progress { color: theme(colors.green.500); }
 
 .background {
     position: relative;

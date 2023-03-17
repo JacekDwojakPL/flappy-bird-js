@@ -65,15 +65,15 @@ function update(dt) {
     [nextPipeDistanceX, nextPipeDistanceY, nextDistanceGround],
     reward
   );
-
+  const accReward = agent.getReward();
   const isTerminalState = enviorment.isTerminalState(nextState);
 
-  if (isTerminalState) {
-    episodeScores.push({ x: episodeScores.length + 1, y: agent.getReward() });
+  if (isTerminalState || accReward > 10000) {
+    episodeScores.push({ x: episodeScores.length + 1, y: accReward });
     reset();
   }
 
-  return isTerminalState;
+  return isTerminalState || accReward > 10000;
 }
 
 function trainingLoop(iterations, fps, cb) {

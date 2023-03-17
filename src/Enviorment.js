@@ -38,11 +38,11 @@ class Enviorment {
   isTerminalState(state) {
     const { nextPipeDistanceX, nextPipeDistanceY, nextDistanceGround } = state;
 
-    if (nextDistanceGround <= 10) {
+    if (nextDistanceGround <= 20) {
       return true;
     }
 
-    if (nextPipeDistanceX <= 10 && nextPipeDistanceY <= 10) {
+    if (nextPipeDistanceX <= 20 && nextPipeDistanceY <= 20) {
       if (nextPipeDistanceX <= -75) {
         return false;
       }

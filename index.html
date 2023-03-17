@@ -13,17 +13,57 @@
     />
     <link href="dist/styles.css" rel="stylesheet" />
   </head>
-  <body class="bg-gray-100">
-    <div class="flex flex-wrap pt-4 gap-4 lg:gap-y-0 relative md:justify-center md:m-auto lg:w-[1300px]">
-      <div class="overflow-x-scroll md:overflow-hidden bg-white md:w-[640px] text-sm md:text-base">
+  <body class="bg-orange-100">
+    <div
+      class="flex flex-wrap md:pt-4 gap-4 lg:gap-y-0 relative md:justify-center md:m-auto lg:w-[1300px] text-blue-900"
+    >
+      <div class="md:overflow-hidden bg-white md:w-[640px] text-sm md:text-base">
         <h3 class="text-lg font-mono font-semibold text-center p-2">Reinforcement Learning with Flappy Bird</h3>
         <p class="p-2">
-          This is an example demonstration of a reinforcement learning algorithm called Q-value iteration. With this
-          method, an agent learns which actions to take given the state it finds itself in. In this example, the agent
-          controls a bird and can choose one of two actions: flap its wings and fly upward (action 1), or do nothing and
-          fall to the ground (action 0). The state is defined as the bird's distance to the ground and the top of the
-          pipe. In the original Flappy Bird game, the height of the pipes is randomized. However, for demonstration
-          purposes, we are using a simplified version with fixed pipe height.
+          This is an example demonstration of the reinforcement learning algorithm known as Q-value iteration.
+          Reinforcement learning is a research field and a group of algorithms and methods that focus on training an
+          agent through its interaction with the environment. Unlike other machine learning methods, a reinforcement
+          learning agent is not provided with correct labels; the only information it has is a set of actions it can
+          take. When the agent takes an action, it receives a feedback signal from the environment, and based on this
+          information, the agent learns which actions to take given the state it finds itself in.
+        </p>
+        <p class="p-2">
+          Q-value iteration is a general algorithm used to build a policy that maps the best actions to take given a
+          state. Note that the state and actions depend on the problem the agent is trying to solve. However, the
+          learning process follows this general flow:
+        </p>
+
+        <ul class="p-2 list-inside list-disc">
+          <li class="p-2">
+            The first step in training such an agent is to obtain the current observation from the environment. An
+            observation can take many forms, such as signals from sensors or cameras, and sometimes only XY coordinates
+            are enough.
+          </li>
+          <li class="p-2">
+            Next, the agent chooses the best action based on the current observation. The chosen action then leads to a
+            transition to the next state, which means a change in the configuration of the agent and its environment.
+            For example, if the agent is at position X and chooses an action that adds one unit to X, the resulting
+            state would be X + 1.
+          </li>
+          <li class="p-2">
+            After the transition, the agent receives a feedback signal, also known as a reward, from the environment,
+            and updates its internal policy accordingly. The rewards table or function tells the agent how well it is
+            performing. By trying many times, the agent gradually builds the map of so-called Q-values. The Q-value of
+            an action essentially indicates how good it is to take that action from all available actions in a given
+            state.
+          </li>
+        </ul>
+
+        <p class="p-2">
+          To train such an agent, it requires a representation of the environment, a set of actions the agent can take,
+          and a rewards table or function. With these components, the agent can learn through trial and error to
+          determine the best actions to take in various states.
+        </p>
+        <p class="p-2">
+          In this example, the agent controls a bird and can choose one of two actions: flap its wings and fly upward
+          (action 1), or do nothing and fall to the ground (action 0). The state is defined as the bird's distance to
+          the ground and the top of the pipe. In the original Flappy Bird game, the height of the pipes is randomized.
+          However, for demonstration purposes, here a simplified version with fixed pipe height is used.
         </p>
         <p class="p-2">
           For each state that is not the terminal state, the agent receives a reward that tells it how well it is
@@ -35,7 +75,49 @@
           order to maximize the total rewards it receives.
         </p>
 
-        <h3 class="text-lg font-mono font-semibold text-center p-2">How to use</h3>
+        <p class="p-2">
+          If you are interested in learning more about this algorithm or artificial intelligence in general, please
+          check out the following resources and courses:
+        </p>
+        <ul class="p-2">
+          <li>
+            <a href="https://cs50.harvard.edu/ai/2020/" class="text-red-600 underline" target="_blank"
+              >CS50's Introduction to Artificial Intelligence with Python</a
+            >
+          </li>
+          <li>
+            <a
+              class="text-red-600 underline"
+              target="_blank"
+              href="https://www.deepmind.com/learning-resources/introduction-to-reinforcement-learning-with-david-silver"
+              >Introduction to Reinforcement Learning with David Silver</a
+            >
+          </li>
+          <li>
+            <a href="https://aima.cs.berkeley.edu/" class="text-red-600 underline" target="_blank"
+              >Artificial Intelligence: A Modern Approach</a
+            >
+            by Stuart Russell and Peter Norvig
+          </li>
+          <li>
+            <a
+              href="https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf"
+              class="text-red-600 underline"
+              target="_blank"
+              >Reinforcement Learning</a
+            >
+            by Richard S. Sutton and Andrew G. Barto
+          </li>
+        </ul>
+        <p class="p-2">
+          Source code can be found
+          <a href="https://github.com/JacekDwojakPL/flappy-bird-js" class="text-red-600 underline" target="_bla"
+            >here</a
+          >
+        </p>
+      </div>
+      <div class="w-full md:w-[640px] bg-white shadow-sm text-sm md:text-base">
+        <h3 class="text-lg font-mono font-semibold text-center p-2">How this works</h3>
         <ul>
           <li class="p-2">
             To begin, press the "Start" button to observe the untrained agent's performance. As you can see, the bird
@@ -54,33 +136,6 @@
             >
           </li>
         </ul>
-        <p class="p-2">
-          If you are interested in learning more about this algorithm or artificial intelligence in general, please
-          check out the following resources and courses:
-        </p>
-        <ul class="p-2">
-          <li>
-            <a href="https://cs50.harvard.edu/ai/2020/" class="text-green-600"
-              >CS50's Introduction to Artificial Intelligence with Python</a
-            >
-          </li>
-          <li>
-            <a href="https://aima.cs.berkeley.edu/" class="text-green-600"
-              >Artificial Intelligence: A Modern Approach</a
-            >
-            by Stuart Russell and Peter Norvig
-          </li>
-          <li>
-            <a
-              href="https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf"
-              class="text-green-600"
-              >Reinforcement Learning</a
-            >
-            by Richard S. Sutton and Andrew G. Barto
-          </li>
-        </ul>
-      </div>
-      <div class="w-full md:w-[640px] bg-white shadow-sm">
         <div class="h-[288px] overflow-hidden relative">
           <div class="background"></div>
           <div class="bird"></div>
@@ -90,17 +145,16 @@
             <div>Episode: <span class="episode"></span></div>
           </div>
         </div>
-        <div class="bg-white overflow-x-scroll md:overflow-hidden py-2 shadow-sm text-sm md:text-base">
-          <div class="mb-5 px-2">
-            <input
-              type="text"
-              name="train-iterations"
-              class="border border-gray-500 train-iterations p-1"
-              placeholder="#episodes"
-            />
-            <button class="train-start-btn border border-gray-500 rounded-sm p-1">Train</button>
-            <div class="md:inline md:p-2 my-2">
-              <progress class="progress hidden" value="0"></progress><span class="ml-2 progressValue"></span>
+        <div class="bg-white md:overflow-hidden py-2 shadow-sm text-sm md:text-base">
+          <div class="mb-5 px-2 flex flex-wrap items-center justify-between">
+            <label for="train-iterations">Training interations</label>
+            <input type="text" name="train-iterations" class="border border-gray-500 train-iterations p-1" />
+            <button class="train-start-btn border border-gray-500 rounded-sm p-1 hover:bg-gray-500 hover:text-white">
+              Train
+            </button>
+            <div class="my-2 basis-24 relative">
+              <progress class="progress h-5 accent-green-500" value="0"></progress
+              ><span class="absolute right-1 top-0 text-sm progressValue"></span>
             </div>
           </div>
           <div class="flex justify-between items-center mb-2 px-2">
@@ -140,10 +194,24 @@
             />
           </div>
           <div class="my-5 flex justify-between md:justify-start mb-2 px-2">
-            <button class="start-simulation border border-gray-500 rounded-sm p-1 md:mr-6">Start</button>
-            <button class="stop-simulation border border-gray-500 rounded-sm p-1 md:mr-6">Stop</button>
-            <button class="show-chart border border-gray-500 rounded-sm p-1 md:mr-6">Plot Rewards</button>
-            <button class="clear-chart border border-gray-500 rounded-sm p-1 md:mr-6">Clear Plot</button>
+            <button
+              class="start-simulation border border-gray-500 rounded-sm p-1 md:mr-6 hover:bg-gray-500 hover:text-white"
+            >
+              Start
+            </button>
+            <button
+              class="stop-simulation border border-gray-500 rounded-sm p-1 md:mr-6 hover:bg-gray-500 hover:text-white"
+            >
+              Stop
+            </button>
+            <button class="show-chart border border-gray-500 rounded-sm p-1 md:mr-6 hover:bg-gray-500 hover:text-white">
+              Plot Rewards
+            </button>
+            <button
+              class="clear-chart border border-gray-500 rounded-sm p-1 md:mr-6 hover:bg-gray-500 hover:text-white"
+            >
+              Clear Plot
+            </button>
           </div>
         </div>
         <div class="overflow-x-scroll md:overflow-hidden bg-white shadow-sm w-full md:w-[640px] md:h-[400px]">
