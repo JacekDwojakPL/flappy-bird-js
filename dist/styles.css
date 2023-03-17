@@ -845,9 +845,9 @@ progress {
   z-index:1
 }
 
-.hover\:bg-gray-500:hover {
+.hover\:bg-blue-900:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+  background-color: rgb(30 58 138 / var(--tw-bg-opacity));
 }
 
 .hover\:text-white:hover {
