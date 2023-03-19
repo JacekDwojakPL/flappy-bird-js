@@ -199,9 +199,6 @@ async function init() {
       document.querySelector('.gamma-value').innerHTML = e.target.value;
     });
 
-    trainIterationsInput.addEventListener('change', (e) => {
-      document.querySelector('.train-iterations-value').innerHTML = e.target.value;
-    });
     if (tippy) {
       tippy('#epsilon', {
         content:
