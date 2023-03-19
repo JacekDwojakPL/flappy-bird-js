@@ -674,6 +674,11 @@ video {
   line-height: 1.25rem;
 }
 
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
 .font-semibold {
   font-weight: 600;
 }
@@ -681,6 +686,11 @@ video {
 .text-blue-900 {
   --tw-text-opacity: 1;
   color: rgb(30 58 138 / var(--tw-text-opacity));
+}
+
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
 .text-red-600 {
@@ -899,11 +909,13 @@ progress {
 }
 
 @media (min-width: 1024px) {
-  .lg\:w-\[1300px\] {
-    width: 1300px;
-  }
-
   .lg\:gap-y-0 {
     row-gap: 0px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .\32xl\:w-\[1300px\] {
+    width: 1300px;
   }
 }
