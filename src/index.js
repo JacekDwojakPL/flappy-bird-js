@@ -1,7 +1,7 @@
 import tippy from 'tippy.js';
-import GameObject from './GameObject';
-import Enviorment from './Enviorment';
-import Agent from './Agent';
+import GameObject from './GameObject.js';
+import Enviorment from './Enviorment.js';
+import Agent from './Agent.js';
 import {
   BACKGROUND_SPEED,
   BACKGROUND_LOOPING_POINT,
@@ -13,8 +13,11 @@ import {
   EXPORT_SCORES,
   SCORES,
   PROGRESS,
-} from './constants';
-import { plotData, getFps } from './utils';
+  CHANGE_ALPHA,
+  CHANGE_GAMMA,
+  CHANGE_EPSILON,
+} from './constants.js';
+import { plotData, getFps } from './utils.js';
 
 async function init() {
   const background = new GameObject('.background', BACKGROUND_LOOPING_POINT, undefined, BACKGROUND_SPEED);
@@ -188,14 +191,23 @@ async function init() {
 
     document.querySelector('.epsilon').addEventListener('change', (e) => {
       agent.epsilon = Number(e.target.value);
+      if (worker) {
+        worker.postMessage({ type: CHANGE_EPSILON, parameters: { epsilon: Number(e.target.value) } });
+      }
       document.querySelector('.epsilon-value').innerHTML = e.target.value;
     });
     document.querySelector('.alpha').addEventListener('change', (e) => {
       agent.learningRate = Number(e.target.value);
+      if (worker) {
+        worker.postMessage({ type: CHANGE_ALPHA, parameters: { alpha: Number(e.target.value) } });
+      }
       document.querySelector('.alpha-value').innerHTML = e.target.value;
     });
     document.querySelector('.gamma').addEventListener('change', (e) => {
       agent.discount = Number(e.target.value);
+      if (worker) {
+        worker.postMessage({ type: CHANGE_GAMMA, parameters: { gamma: Number(e.target.value) } });
+      }
       document.querySelector('.gamma-value').innerHTML = e.target.value;
     });
 

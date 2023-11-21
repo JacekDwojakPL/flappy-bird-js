@@ -1,10 +1,10 @@
-import { PIPE_SPEED } from './constants';
+import { PIPE_SPEED } from './constants.js';
 
 class Enviorment {
   constructor() {
     this.pipe = {
       x: 670,
-      height: 150,
+      height: 150 || this.getRandomArbitrary(100, 150),
     };
     this.pipeSpeed = PIPE_SPEED;
   }
@@ -31,7 +31,7 @@ class Enviorment {
   reset() {
     this.pipe = {
       x: 670,
-      height: 150,
+      height: 150 || this.getRandomArbitrary(100, 150) || 150,
     };
   }
 
@@ -53,7 +53,7 @@ class Enviorment {
   }
 
   getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
+    return Math.floor(Math.random() * (max - min) + min);
   }
 }
 
