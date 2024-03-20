@@ -72,20 +72,20 @@ function update(dt) {
   const accReward = agent.getReward();
   const isTerminalState = enviorment.isTerminalState(nextState);
 
-  if (isTerminalState || accReward > 10000) {
+  if (isTerminalState || accReward > 50000) {
     episodeScores.push({ x: episodeScores.length + 1, y: accReward });
     reset();
   }
 
-  return isTerminalState || accReward > 10000;
+  return isTerminalState || accReward > 50000;
 }
 
 function trainingLoop(iterations, fps, cb) {
   let numberOfEpisodes = iterations;
-  const deltaTime = 1000 / fps;
+  const deltaTime = 4; //1000 / fps;
   for (let i = 0; i < numberOfEpisodes; i++) {
     let isTerminalState = false;
-    if (i % 1000 === 0) {
+    if (i % 100 === 0) {
       self.postMessage({ type: PROGRESS, parameters: { iteration: i } });
     }
 

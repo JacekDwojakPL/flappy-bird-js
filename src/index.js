@@ -211,24 +211,36 @@ async function init() {
       document.querySelector('.gamma-value').innerHTML = e.target.value;
     });
 
-    if (tippy) {
-      tippy('#epsilon', {
-        content:
-          'This parameter represents the exploration vs. exploitation trade-off in the Q-value iteration algorithm. It determines the probability of the agent taking a random action instead of the action with the highest Q-value (i.e., exploration) vs. the action with the highest Q-value (i.e., exploitation). <p>A high value of ε indicates that the agent is more likely to explore, while a low value of ε indicates that the agent is more likely to exploit. Setting ε too high can cause the agent to explore too much and potentially miss the optimal policy, while setting it too low can cause the agent to exploit too much and potentially get stuck in local optima.</p>',
-        allowHTML: true,
-      });
+    // if (tippy) {
+    tippy('#epsilon', {
+      content:
+        'This parameter represents the exploration vs. exploitation trade-off in the Q-value iteration algorithm. It determines the probability of the agent taking a random action instead of the action with the highest Q-value (i.e., exploration) vs. the action with the highest Q-value (i.e., exploitation). <p>A high value of ε indicates that the agent is more likely to explore, while a low value of ε indicates that the agent is more likely to exploit. Setting ε too high can cause the agent to explore too much and potentially miss the optimal policy, while setting it too low can cause the agent to exploit too much and potentially get stuck in local optima.</p>',
+      allowHTML: true,
+      placement: 'auto',
+      popperOptions: {
+        strategy: 'fixed',
+      },
+    });
 
-      tippy('#alpha', {
-        content:
-          'This parameter represents the learning rate in the Q-value update. It determines how much weight should be given to the new Q-value estimate vs. the previous Q-value estimate. A high value of α indicates that the new Q-value estimate should be given more weight, while a low value of α indicates that the previous Q-value estimate should be given more weight. Setting α too high can cause the algorithm to converge too quickly and potentially miss the optimal policy, while setting it too low can cause the algorithm to converge too slowly.',
-        allowHTML: true,
-      });
-      tippy('#gamma', {
-        content:
-          'This parameter determines the importance of future rewards in the Q-value update. It is a discount factor that discounts the value of future rewards based on how far away they are in time. In other words, it determines how much weight should be given to immediate rewards vs. future rewards. A high value of γ (e.g., close to 1.0) indicates that future rewards are important, while a low value of γ (e.g., close to 0.0) indicates that only immediate rewards matter.',
-        allowHTML: true,
-      });
-    }
+    tippy('#alpha', {
+      content:
+        'This parameter represents the learning rate in the Q-value update. It determines how much weight should be given to the new Q-value estimate vs. the previous Q-value estimate. A high value of α indicates that the new Q-value estimate should be given more weight, while a low value of α indicates that the previous Q-value estimate should be given more weight. Setting α too high can cause the algorithm to converge too quickly and potentially miss the optimal policy, while setting it too low can cause the algorithm to converge too slowly.',
+      allowHTML: true,
+      placement: 'auto',
+      popperOptions: {
+        strategy: 'fixed',
+      },
+    });
+    tippy('#gamma', {
+      content:
+        'This parameter determines the importance of future rewards in the Q-value update. It is a discount factor that discounts the value of future rewards based on how far away they are in time. In other words, it determines how much weight should be given to immediate rewards vs. future rewards. A high value of γ (e.g., close to 1.0) indicates that future rewards are important, while a low value of γ (e.g., close to 0.0) indicates that only immediate rewards matter.',
+      allowHTML: true,
+      placement: 'auto',
+      popperOptions: {
+        strategy: 'fixed',
+      },
+    });
+    // }
   }
 }
 

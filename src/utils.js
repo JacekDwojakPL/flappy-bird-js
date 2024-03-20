@@ -1,7 +1,7 @@
 import { select, scaleLinear, interpolateHcl, max, axisLeft, axisBottom } from 'd3';
 
 export function plotData(data) {
-  const margin = { top: 30, right: 30, bottom: 30, left: 30 };
+  const margin = { top: 50, right: 50, bottom: 50, left: 50 };
   const width = 640 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
@@ -9,7 +9,7 @@ export function plotData(data) {
 
   // Create the SVG container and set the dimensions
   const svg = select('svg')
-    .attr('width', width + margin.left + margin.right)
+    .attr('width', '100%')
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
@@ -49,26 +49,29 @@ export function plotData(data) {
 }
 
 export function getFps() {
-  let deltaTime = 0;
-  let lastTimestamp = 0;
+  let frameCount = 0;
+  let lastTime = performance.now();
   let iterations = 0;
-  // deltaTime = timestamp - lastTimestamp;
-  // lastTimestamp = timestamp;
-
   return new Promise((resolve, reject) => {
-    function loop(timestamp) {
-      deltaTime = timestamp - lastTimestamp;
-      lastTimestamp = timestamp;
+    function update() {
+      frameCount++;
+      let currentTime = performance.now();
+      let deltaTime = currentTime - lastTime;
 
-      iterations++;
-      if (iterations > 10) {
-        if (deltaTime <= 10) {
-          return resolve(120);
+      if (deltaTime >= 1000) {
+        iterations++;
+        let fps = Math.round((frameCount * 1000) / deltaTime);
+
+        if (iterations === 2) {
+          return resolve(fps);
         }
-        return resolve(60);
+        frameCount = 0;
+        lastTime = currentTime;
       }
-      window.requestAnimationFrame((timeRes) => loop(timeRes));
+
+      window.requestAnimationFrame(update);
     }
-    window.requestAnimationFrame((timeRes) => loop(timeRes));
+
+    update();
   });
 }

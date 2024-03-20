@@ -82,16 +82,17 @@ function trainingLoop(iterations, fps, cb) {
   let isTerminalState = false;
   agent.isTraining = true;
   // const deltaTime = 1000 / FRAME_RATE;
-  const deltaTime = 1000 / fps;
+  const deltaTime = 4; //1000 / fps;
   console.log('start training');
   while (true) {
     numberOfEpisodes++;
-
+    if (numberOfEpisodes % 1000 === 0) {
+      console.log({ iteration: numberOfEpisodes, score: episodeScores[episodeScores.length - 1].y });
+    }
     do {
       isTerminalState = update(deltaTime);
     } while (!isTerminalState);
-    if (numberOfEpisodes % 10000 === 0) {
-      console.log({ iteration: numberOfEpisodes, score: episodeScores[episodeScores.length - 1].y });
+    if (numberOfEpisodes % 150000 === 0) {
       fs.writeFileSync('output.json', JSON.stringify(agent.getQValues()));
     }
   }

@@ -4,7 +4,7 @@ class Enviorment {
   constructor() {
     this.pipe = {
       x: 670,
-      height: 150 || this.getRandomArbitrary(100, 150),
+      height: this.getRandomArbitrary(160, 200),
     };
     this.pipeSpeed = PIPE_SPEED;
   }
@@ -20,18 +20,18 @@ class Enviorment {
     }
   }
 
-  getReward(nextState) {
+  getReward(currentState, choosenAction, nextState) {
     if (this.isTerminalState(nextState)) {
-      return -1000;
+      return -10000;
     }
 
-    return 1;
+    return 0;
   }
 
   reset() {
     this.pipe = {
       x: 670,
-      height: 150 || this.getRandomArbitrary(100, 150) || 150,
+      height: this.getRandomArbitrary(160, 200) || 150,
     };
   }
 
@@ -42,7 +42,7 @@ class Enviorment {
       return true;
     }
 
-    if (nextPipeDistanceX <= 20 && nextPipeDistanceY <= 20) {
+    if (nextPipeDistanceX <= 30 && nextPipeDistanceY <= 30) {
       if (nextPipeDistanceX <= -75) {
         return false;
       }
