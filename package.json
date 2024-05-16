@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack && tailwindcss -i ./src/styles.css -o ./dist/styles.css ",
-    "build-offline": "webpack ./src/offline-learning.js -o ./dist/offline-learning"
+    "build": "rm -rf dist && webpack && tailwindcss -i ./src/styles.css -o ./dist/styles.css && mkdir dist/assets && cp -r src/assets dist"
   },
   "author": "",
   "license": "ISC",

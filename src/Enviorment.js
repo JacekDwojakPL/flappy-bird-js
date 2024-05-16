@@ -4,7 +4,7 @@ class Enviorment {
   constructor() {
     this.pipe = {
       x: 670,
-      height: this.getRandomArbitrary(160, 200),
+      height: this.getRandomArbitrary(100, 200),
     };
     this.pipeSpeed = PIPE_SPEED;
   }
@@ -25,13 +25,18 @@ class Enviorment {
       return -10000;
     }
 
+    const { nextPipeDistanceY } = nextState;
+    if (nextPipeDistanceY < 30) {
+      return -1;
+    }
+
     return 0;
   }
 
   reset() {
     this.pipe = {
       x: 670,
-      height: this.getRandomArbitrary(160, 200) || 150,
+      height: this.getRandomArbitrary(100, 200) || 150,
     };
   }
 
