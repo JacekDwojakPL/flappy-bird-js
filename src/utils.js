@@ -1,51 +1,62 @@
-import { select, scaleLinear, interpolateHcl, max, axisLeft, axisBottom } from 'd3';
+import { scaleLinear, max, min, interpolateHcl } from 'd3';
 
 export function plotData(data) {
-  const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-  const width = 640 - margin.left - margin.right;
-  const height = 400 - margin.top - margin.bottom;
+  const width = 640; // Canvas width
+  const height = 400; // Canvas height
 
-  document.querySelector('svg').innerHTML = '';
+  // Select the canvas and set up its dimensions
+  const canvas = document.querySelector('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = width;
+  canvas.height = height;
 
-  // Create the SVG container and set the dimensions
-  const svg = select('svg')
-    .attr('width', '100%')
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', `translate(${margin.left}, ${margin.top})`);
-  // Select the SVG element containing the chart
+  // Clear previous render
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Create the scales
+  // Create scales
   const xScale = scaleLinear()
-    .domain([0, max(data, (d) => d.x)])
+    .domain([0, max(data, (d) => d.x)]) // Set domain based on max x value
     .range([0, width]);
 
   const yScale = scaleLinear()
-    .domain([0, max(data, (d) => d.y)])
-    .range([height, 0]);
+    .domain([min(data, (d) => d.y), max(data, (d) => d.y)]) // Handle negative y-values by finding the min and max
+    .range([height, 0]); // Flip y-axis to fit canvas coordinate system
 
-  // Generate a random color using the color scale
-  //   const randomColor = colorScale(Math.floor(Math.random() * 10));
   const colorScale = scaleLinear()
-    .domain([0, max(data, (d) => d.y)])
+    .domain([min(data, (d) => d.y), max(data, (d) => d.y)]) // Set color scale based on y values
     .range(['#0EA5E9', '#EF4444'])
     .interpolate(interpolateHcl);
 
-  svg
-    .selectAll('circle')
-    .data(data)
-    .enter()
-    .append('circle')
-    .attr('cx', (d) => xScale(d.x))
-    .attr('cy', (d) => yScale(d.y))
-    .attr('r', 1)
-    .attr('fill', (d) => colorScale(d.y));
+  // Draw all points
+  context.fillStyle = 'black'; // Default color (overridden for each point)
+  data.forEach((d) => {
+    context.beginPath();
+    context.arc(xScale(d.x), yScale(d.y), 1, 0, 2 * Math.PI); // Radius of 1
+    context.fillStyle = colorScale(d.y); // Apply color scale based on y-value
+    context.fill();
+  });
 
-  // Add the x-axis
-  svg.append('g').attr('transform', `translate(0, ${height})`).call(axisBottom(xScale));
+  // Draw axes
+  context.strokeStyle = 'black';
+  context.lineWidth = 1;
 
-  // Add the y-axis
-  svg.append('g').call(axisLeft(yScale));
+  // X-axis
+  context.beginPath();
+  context.moveTo(0, height); // Start at the bottom of the canvas
+  context.lineTo(width, height); // End at the bottom-right corner
+  context.stroke();
+
+  // Y-axis
+  context.beginPath();
+  context.moveTo(0, 0); // Start at the top-left corner
+  context.lineTo(0, height); // End at the bottom-left corner
+  context.stroke();
+
+  // Optional: Add labels for axes
+  // context.font = '12px sans-serif';
+  // context.fillStyle = 'black';
+  // context.fillText('X-axis', width / 2, height + 30);
+  // context.fillText('Y-axis', -30, height / 2);
 }
 
 export function getFps() {
