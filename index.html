@@ -75,8 +75,7 @@
               In this example, the agent controls a bird and can choose one of two actions: flap its wings and fly
               upward (action 1), or do nothing and fall to the ground (action 0). The state is defined as the bird's
               distance to the ground and the top of the pipe. In the original Flappy Bird game, the height of the pipes
-              is randomized. However, for demonstration purposes, here a simplified version with fixed pipe height is
-              used.
+              is randomized. For demonstration purposes, here a simplified version with only one pipe.
             </p>
             <p class="p-2">
               For each state that is not the terminal state, the agent receives a reward that tells it how well it is
@@ -145,10 +144,6 @@
             <li class="p-2">
               After training is finished you can monitor the agent's progress, by clicking the "Plot Rewards" button to
               visualize the accumulated rewards after each episode.
-              <strong
-                >If you have trained for a large number of episodes, it is recommended to clear the plot before running
-                the simulation again, as a heavy plot can slow down the rendering process.</strong
-              >
             </li>
           </ul>
           <div class="h-[288px] overflow-hidden relative">

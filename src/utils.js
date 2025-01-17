@@ -37,7 +37,7 @@ export function plotData(data) {
   });
 
   // Draw axes
-  context.strokeStyle = 'black';
+  context.strokeStyle = 'white';
   context.lineWidth = 1;
 
   // X-axis
