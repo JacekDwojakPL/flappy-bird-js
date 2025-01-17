@@ -186,7 +186,9 @@ async function init() {
       worker.postMessage({ type: EXPORT_SCORES });
     });
     document.querySelector('.clear-chart').addEventListener('click', () => {
-      document.querySelector('svg').innerHTML = '';
+      const canvas = document.querySelector('canvas');
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
     });
 
     document.querySelector('.epsilon').addEventListener('change', (e) => {
