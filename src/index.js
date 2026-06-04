@@ -196,21 +196,18 @@ async function init() {
       if (worker) {
         worker.postMessage({ type: CHANGE_EPSILON, parameters: { epsilon: Number(e.target.value) } });
       }
-      document.querySelector('.epsilon-value').innerHTML = e.target.value;
     });
     document.querySelector('.alpha').addEventListener('change', (e) => {
       agent.learningRate = Number(e.target.value);
       if (worker) {
         worker.postMessage({ type: CHANGE_ALPHA, parameters: { alpha: Number(e.target.value) } });
       }
-      document.querySelector('.alpha-value').innerHTML = e.target.value;
     });
     document.querySelector('.gamma').addEventListener('change', (e) => {
       agent.discount = Number(e.target.value);
       if (worker) {
         worker.postMessage({ type: CHANGE_GAMMA, parameters: { gamma: Number(e.target.value) } });
       }
-      document.querySelector('.gamma-value').innerHTML = e.target.value;
     });
 
     // if (tippy) {
