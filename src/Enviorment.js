@@ -51,7 +51,7 @@ class Enviorment {
       return true;
     }
 
-    if (nextPipeDistanceX <= 50 && nextPipeDistanceY <= 50) {
+    if (nextPipeDistanceX <= 50 && nextPipeDistanceY <= 100) {
       if (nextPipeDistanceX <= -75) {
         return false;
       }
